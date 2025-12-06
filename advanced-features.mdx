@@ -1,0 +1,167 @@
+---
+title: Advanced Features
+description: Explore advanced capabilities and customization options in Atlas-tech
+---
+
+## Memory Clustering
+
+Atlas-tech automatically clusters related memories to improve retrieval accuracy and provide contextual insights.
+
+<CodeGroup tabs="Python,JavaScript">
+  ```python
+  # Enable clustering for a user
+  client.enable_clustering(user_id="user123", options={
+      "similarity_threshold": 0.8,
+      "max_cluster_size": 50
+  })
+  
+  # Query clustered memories
+  clusters = client.query_clusters(user_id="user123", topic="shopping")
+  ```
+  ```javascript
+  // Enable clustering
+  await client.enableClustering('user123', {
+    similarityThreshold: 0.8,
+    maxClusterSize: 50
+  });
+  
+  // Query clusters
+  const clusters = await client.queryClusters('user123', 'shopping');
+  ```
+</CodeGroup>
+
+## Custom Metadata
+
+Extend memory entries with custom fields for advanced filtering and analytics:
+
+<Tabs>
+  <Tab title="Store with Metadata" icon="save">
+    ````json
+    {
+      "content": "User purchased premium subscription",
+      "user_id": "user456",
+      "tags": ["purchase", "subscription"],
+      "metadata": {
+        "event_type": "ecommerce",
+        "value": 99.99,
+        "currency": "USD",
+        "product_category": "software",
+        "campaign_id": "summer2024"
+      }
+    }
+    ````
+  </Tab>
+  <Tab title="Query by Metadata" icon="search">
+    ````python
+    # Filter by custom metadata fields
+    memories = client.query_memories(
+        user_id="user456",
+        metadata_filters={
+            "event_type": "ecommerce",
+            "value": {"$gte": 50}
+        }
+    )
+    ````
+  </Tab>
+</Tabs>
+
+<Callout kind="info">
+  Metadata fields support various data types including strings, numbers, booleans, and nested objects.
+</Callout>
+
+## Memory Analytics
+
+Gain insights into memory usage patterns and user behavior:
+
+<Steps>
+  <Step title="Enable Analytics" icon="bar-chart">
+    Activate analytics tracking in your dashboard.
+  </Step>
+  <Step title="Access Reports" icon="file-text">
+    Retrieve usage statistics and trends.
+  </Step>
+  <Step title="Optimize Storage" icon="settings">
+    Use insights to optimize memory management.
+  </Step>
+</Steps>
+
+<Expandable title="Available Metrics" default-open="false">
+  - Total memories stored per user
+  - Memory access frequency and patterns
+  - Tag usage statistics
+  - Storage utilization over time
+  - Retrieval success rates
+</Expandable>
+
+<ExpandableGroup>
+  <Expandable title="Bulk Operations" default-open="true">
+    Perform batch operations on multiple memories for efficiency:
+    ````python
+    # Bulk delete old memories
+    client.bulk_delete(
+        user_id="user123",
+        filters={"created_before": "2023-01-01"}
+    )
+    
+    # Bulk update tags
+    client.bulk_update_tags(
+        memory_ids=["mem_1", "mem_2", "mem_3"],
+        add_tags=["archived"],
+        remove_tags=["active"]
+    )
+    ````
+  </Expandable>
+  <Expandable title="Memory Export" default-open="false">
+    Export memories in various formats for backup or migration:
+    - JSON format for full fidelity
+    - CSV format for spreadsheet analysis
+    - Custom formats via API
+  </Expandable>
+</ExpandableGroup>
+
+## Security Features
+
+Advanced security controls for enterprise deployments:
+
+- **Field-level Encryption**: Encrypt sensitive metadata fields
+- **Access Control Lists**: Granular permissions per user or group
+- **Audit Logging**: Comprehensive logging of all memory operations
+- **Data Residency**: Control where data is physically stored
+
+<Callout kind="alert">
+  Enterprise security features require a premium subscription plan.
+</Callout>
+
+## Integration Patterns
+
+Advanced integration techniques for complex AI applications:
+
+<Tabs>
+  <Tab title="Event-Driven" icon="zap">
+    Use webhooks for real-time memory updates.
+  </Tab>
+  <Tab title="Batch Processing" icon="layers">
+    Process large volumes of memories efficiently.
+  </Tab>
+  <Tab title="Streaming" icon="radio">
+    Handle continuous memory streams for live applications.
+  </Tab>
+</Tabs>
+
+## Performance Optimization
+
+Tips for maximizing performance in high-traffic applications:
+
+- Use appropriate indexing for frequently queried fields
+- Implement caching strategies for hot data
+- Batch operations to reduce API calls
+- Monitor and optimize query patterns
+- Use compression for large memory payloads
+
+<Expandable title="Monitoring" default-open="false">
+  Atlas-tech provides detailed metrics and monitoring capabilities:
+  - Real-time performance dashboards
+  - Alert configuration for anomalies
+  - Historical performance analysis
+  - API usage tracking
+</Expandable>

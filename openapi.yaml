@@ -1,0 +1,125 @@
+openapi: '3.0.0'
+info:
+  version: 1.0.0
+  title: Atlas-tech API
+  license:
+    name: MIT
+servers:
+  - url: https://api.atlas-tech.com/v1
+paths:
+  /memories:
+    get:
+      summary: Retrieve a paginated list of all memories stored in the system. This endpoint supports advanced filtering by user ID, tags, creation date, and custom metadata fields. Results are sorted by creation timestamp in descending order by default and include full memory details for each entry.
+      operationId: listMemories
+      parameters:
+        - name: limit
+          in: query
+          description: Maximum number of memories to return per page, with a maximum limit of 100 entries.
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        200:
+          description: Successful retrieval of memories with pagination metadata and memory details.
+          headers:
+            x-next:
+              description: URL link to retrieve the next page of memory results when additional entries exist.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memories'
+        default:
+          description: Unexpected error occurred during memory retrieval operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Create a new memory entry in the Atlas-tech system. This endpoint accepts memory content, associated user identifier, optional tags, and custom metadata. The operation validates input data and returns the created memory with generated identifiers and timestamps.
+      operationId: createMemories
+      responses:
+        201:
+          description: Memory successfully created with all provided data and system-generated fields.
+        default:
+          description: Unexpected error occurred during memory creation process.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /memories/{memoryId}:
+    get:
+      summary: Retrieve detailed information for a specific memory entry by its unique identifier. This endpoint provides complete memory data including content, metadata, tags, and timestamps. Access is validated based on user permissions and memory ownership.
+      operationId: showMemoryById
+      parameters:
+        - name: memoryId
+          in: path
+          required: true
+          description: Unique identifier of the memory entry to retrieve, typically in the format mem_xxxxxxxx.
+          schema:
+            type: string
+      responses:
+        200:
+          description: Memory details successfully retrieved with all associated data and metadata.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memories'
+        default:
+          description: Unexpected error occurred while retrieving the specific memory entry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Memory:
+      required:
+        - id
+        - content
+        - user_id
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the memory entry
+        content:
+          type: string
+          description: The actual memory content or data being stored
+        user_id:
+          type: string
+          description: Identifier of the user who owns this memory
+        tags:
+          type: array
+          items:
+            type: string
+          description: Optional tags for categorizing and filtering memories
+        metadata:
+          type: object
+          description: Custom metadata fields for additional context
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the memory was created
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the memory was last updated
+    Memories:
+      type: array
+      items:
+        $ref: '#/components/schemas/Memory'
+      description: Array of memory entries with full details
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: Numeric error code for programmatic handling
+        message:
+          type: string
+          description: Human-readable error message explaining the issue

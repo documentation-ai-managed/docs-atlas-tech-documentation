@@ -1,0 +1,110 @@
+---
+title: Introduction
+description: Overview of Atlas-tech and its core capabilities for building the future memory layer of AI
+---
+
+## Getting Started
+
+Atlas-tech revolutionizes AI applications by providing a robust memory layer that enables persistent, contextual, and scalable data retention across sessions. Our platform allows developers to seamlessly integrate long-term memory capabilities into AI systems, ensuring continuity and personalization in user interactions. By leveraging advanced memory management techniques, Atlas-tech empowers applications to remember user preferences, conversation history, and contextual data indefinitely.
+
+<Columns cols={3}>
+  <Card title="Quick Setup" icon="zap" href="getting-started">
+    Get started in minutes with our streamlined setup process.
+  </Card>
+  <Card title="API Reference" icon="code" href="api-overview">
+    Explore our comprehensive API for memory operations.
+  </Card>
+  <Card title="Advanced Features" icon="settings" href="advanced-features">
+    Discover powerful capabilities for complex AI integrations.
+  </Card>
+</Columns>
+
+## Key Capabilities
+
+Atlas-tech offers a suite of features designed to enhance AI memory management:
+
+- **Persistent Storage**: Store and retrieve memory data with guaranteed durability across sessions.
+- **Contextual Retrieval**: Access memories based on relevance and recency for optimal AI responses.
+- **Scalable Architecture**: Handle millions of memory operations with enterprise-grade performance.
+- **Secure Integration**: Implement robust authentication and encryption for sensitive memory data.
+
+<Tabs>
+  <Tab title="Python" icon="code">
+    <Steps>
+      <Step title="Install SDK" icon="download">
+        Install the Atlas-tech Python SDK:
+        ````bash
+        pip install atlas-tech
+        ````
+      </Step>
+      <Step title="Initialize Client" icon="settings">
+        Create a client instance:
+        ````python
+        from atlas_tech import MemoryClient
+        
+        client = MemoryClient(api_key="your_api_key")
+        ````
+      </Step>
+      <Step title="Store Memory" icon="save">
+        Store a memory entry:
+        ````python
+        memory_id = client.store_memory(
+            content="User prefers blue theme",
+            user_id="user123",
+            tags=["preference", "ui"]
+        )
+        ````
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="JavaScript" icon="code">
+    <Steps>
+      <Step title="Install Package" icon="download">
+        Install via npm:
+        ````bash
+        npm install atlas-tech-js
+        ````
+      </Step>
+      <Step title="Initialize SDK" icon="settings">
+        Set up the client:
+        ````javascript
+        const { MemoryClient } = require('atlas-tech-js');
+        
+        const client = new MemoryClient({
+          apiKey: 'your_api_key'
+        });
+        ````
+      </Step>
+      <Step title="Retrieve Memories" icon="search">
+        Query memories:
+        ````javascript
+        const memories = await client.queryMemories({
+          userId: 'user123',
+          tags: ['conversation'],
+          limit: 10
+        });
+        ````
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+<Callout kind="info">
+  Atlas-tech supports multiple programming languages and provides SDKs for seamless integration.
+</Callout>
+
+<Expandable title="Common Use Cases" default-open="false">
+  - **Chatbots**: Maintain conversation history across sessions for personalized interactions.
+  - **Recommendation Systems**: Store user preferences and behavior patterns for accurate suggestions.
+  - **Learning Platforms**: Preserve progress and learning data for adaptive content delivery.
+  - **IoT Applications**: Retain device states and user configurations for consistent experiences.
+</Expandable>
+
+<ExpandableGroup>
+  <Expandable title="Why Choose Atlas-tech?" default-open="true">
+    Atlas-tech stands out with its focus on reliability, performance, and developer experience. Our memory layer ensures that AI applications can provide continuity and context without compromising on speed or security.
+  </Expandable>
+  <Expandable title="Security Features" default-open="false">
+    We implement end-to-end encryption, role-based access control, and compliance with industry standards to protect your memory data.
+  </Expandable>
+</ExpandableGroup>

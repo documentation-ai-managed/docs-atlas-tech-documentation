@@ -1,0 +1,155 @@
+---
+title: API Overview
+description: Comprehensive guide to Atlas-tech API endpoints and integration patterns
+---
+
+## API Architecture
+
+Atlas-tech provides a RESTful API for managing AI memory operations. Our API is designed for reliability, with automatic retries, comprehensive logging, and enterprise-grade security.
+
+<Columns cols={2}>
+  <Card title="RESTful Design" icon="server" href="#rest-api">
+    Standard HTTP methods with predictable endpoints.
+  </Card>
+  <Card title="JSON Responses" icon="file-text" href="#responses">
+    Consistent JSON structure across all endpoints.
+  </Card>
+</Columns>
+
+## Authentication
+
+All API requests require authentication using your API key:
+
+<CodeGroup tabs="cURL,Python">
+  ```bash
+  curl -X GET \
+    "https://api.atlas-tech.com/v1/memories" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Content-Type: application/json"
+  ```
+  ```python
+  import requests
+  
+  headers = {
+      "Authorization": "Bearer YOUR_API_KEY",
+      "Content-Type": "application/json"
+  }
+  response = requests.get("https://api.atlas-tech.com/v1/memories", headers=headers)
+  ```
+</CodeGroup>
+
+<Callout kind="info">
+  API keys should be kept secure and rotated regularly for security.
+</Callout>
+
+## Core Endpoints
+
+<Tabs>
+  <Tab title="Memories" icon="database">
+    <ParamField path="id" param-type="string" required="true">
+      Unique identifier for the memory entry.
+    </ParamField>
+    <ParamField query="user_id" param-type="string" required="false">
+      Filter memories by user identifier.
+    </ParamField>
+    <ParamField query="tags" param-type="array" required="false">
+      Filter by memory tags.
+    </ParamField>
+  </Tab>
+  <Tab title="Users" icon="users">
+    <ParamField path="user_id" param-type="string" required="true">
+      Target user identifier.
+    </ParamField>
+    <ParamField query="limit" param-type="integer" required="false">
+      Maximum number of results to return.
+    </ParamField>
+  </Tab>
+</Tabs>
+
+## Response Format
+
+All API responses follow a consistent JSON structure:
+
+<Response tabs="Success,Error" show-lines="false">
+  ```json
+  {
+    "success": true,
+    "data": {
+      "id": "mem_abc123",
+      "content": "User prefers dark mode",
+      "user_id": "user789",
+      "tags": ["preference", "ui"],
+      "created_at": "2024-01-15T10:30:00Z",
+      "updated_at": "2024-01-15T10:30:00Z"
+    },
+    "metadata": {
+      "request_id": "req_xyz456",
+      "processing_time_ms": 45
+    }
+  }
+  ```
+  ```json
+  {
+    "success": false,
+    "error": {
+      "code": "INVALID_API_KEY",
+      "message": "The provided API key is invalid",
+      "details": {
+        "field": "authorization"
+      }
+    },
+    "metadata": {
+      "request_id": "req_xyz456",
+      "processing_time_ms": 12
+    }
+  }
+  ```
+</Response>
+
+<Expandable title="Error Codes" default-open="false">
+  - `INVALID_API_KEY`: Authentication failed
+  - `RATE_LIMIT_EXCEEDED`: Too many requests
+  - `MEMORY_NOT_FOUND`: Specified memory does not exist
+  - `VALIDATION_ERROR`: Invalid request parameters
+  - `SERVER_ERROR`: Internal server error
+</Expandable>
+
+<ExpandableGroup>
+  <Expandable title="Rate Limiting" default-open="true">
+    API requests are rate limited based on your plan. Check response headers for limit information.
+  </Expandable>
+  <Expandable title="Pagination" default-open="false">
+    List endpoints support pagination with `limit` and `cursor` parameters for large result sets.
+  </Expandable>
+</ExpandableGroup>
+
+## SDK Integration
+
+Our official SDKs handle authentication, retries, and response parsing automatically:
+
+<Steps>
+  <Step title="Install SDK" icon="download">
+    Choose your preferred SDK and install it.
+  </Step>
+  <Step title="Configure" icon="settings">
+    Set your API key and optional configuration.
+  </Step>
+  <Step title="Make Requests" icon="send">
+    Use high-level methods for common operations.
+  </Step>
+</Steps>
+
+<Callout kind="tip">
+  SDKs provide better error handling and automatic retries compared to direct API calls.
+</Callout>
+
+## Webhooks
+
+Set up webhooks to receive real-time notifications about memory events:
+
+- Memory created
+- Memory updated
+- Memory deleted
+- User activity summary
+
+Configure webhook endpoints in your dashboard and receive JSON payloads for each event type.

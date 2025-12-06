@@ -1,0 +1,132 @@
+---
+title: Getting Started
+description: Step-by-step guide to setting up and using Atlas-tech for your AI applications
+---
+
+## Prerequisites
+
+Before you begin, ensure you have the following:
+
+- A valid Atlas-tech API key (obtain from your dashboard)
+- Python 3.8+ or Node.js 14+ for SDK usage
+- Basic understanding of REST APIs
+
+<Steps>
+  <Step title="Create Account" icon="user">
+    Sign up for an Atlas-tech account at our website and generate your API key.
+  </Step>
+  <Step title="Choose SDK" icon="package">
+    Select the appropriate SDK based on your programming language:
+    <CodeGroup tabs="Python,JavaScript">
+      ```bash
+      pip install atlas-tech
+      ```
+      ```bash
+      npm install atlas-tech-js
+      ```
+    </CodeGroup>
+  </Step>
+  <Step title="Configure Client" icon="settings">
+    Initialize the client with your API key:
+    <CodeGroup tabs="Python,JavaScript">
+      ```python
+      from atlas_tech import MemoryClient
+      client = MemoryClient(api_key="your_api_key_here")
+      ```
+      ```javascript
+      const { MemoryClient } = require('atlas-tech-js');
+      const client = new MemoryClient({ apiKey: 'your_api_key_here' });
+      ```
+    </CodeGroup>
+  </Step>
+  <Step title="Test Connection" icon="check">
+    Verify your setup by storing a test memory:
+    <CodeGroup tabs="Python,JavaScript">
+      ```python
+      response = client.store_memory(content="Test memory", user_id="test_user")
+      print(f"Memory stored with ID: {response['id']}")
+      ```
+      ```javascript
+      const response = await client.storeMemory({
+        content: 'Test memory',
+        userId: 'test_user'
+      });
+      console.log(`Memory stored with ID: ${response.id}`);
+      ```
+    </CodeGroup>
+  </Step>
+</Steps>
+
+## Basic Operations
+
+Once configured, you can perform core memory operations:
+
+<Tabs>
+  <Tab title="Store Memory" icon="save">
+    Store new memory entries with rich metadata:
+    ````python
+    memory_data = {
+        "content": "User completed tutorial on memory management",
+        "user_id": "user456",
+        "tags": ["tutorial", "progress"],
+        "metadata": {
+            "timestamp": "2024-01-15T10:30:00Z",
+            "importance": "high"
+        }
+    }
+    result = client.store_memory(**memory_data)
+    ````
+  </Tab>
+  <Tab title="Query Memories" icon="search">
+    Retrieve memories based on various criteria:
+    ````python
+    query_params = {
+        "user_id": "user456",
+        "tags": ["tutorial"],
+        "limit": 20,
+        "sort_by": "timestamp",
+        "sort_order": "desc"
+    }
+    memories = client.query_memories(**query_params)
+    ````
+  </Tab>
+  <Tab title="Update Memory" icon="edit">
+    Modify existing memory content:
+    ````python
+    update_data = {
+        "content": "Updated tutorial progress information",
+        "tags": ["tutorial", "progress", "updated"]
+    }
+    client.update_memory(memory_id="mem_123", **update_data)
+    ````
+  </Tab>
+</Tabs>
+
+<Callout kind="tip">
+  Always include relevant tags and metadata when storing memories to improve retrieval accuracy.
+</Callout>
+
+<Expandable title="Error Handling" default-open="false">
+  Atlas-tech SDKs include comprehensive error handling. Common errors include invalid API keys, rate limit exceeded, and invalid memory IDs. Check the error response for detailed information.
+</Expandable>
+
+<ExpandableGroup>
+  <Expandable title="Rate Limits" default-open="true">
+    Free tier: 1,000 operations/day. Pro tier: 100,000 operations/day. Enterprise: Unlimited.
+  </Expandable>
+  <Expandable title="Data Retention" default-open="false">
+    Memories are retained indefinitely unless explicitly deleted. Use the delete operation for cleanup.
+  </Expandable>
+</ExpandableGroup>
+
+## Best Practices
+
+- Use descriptive tags for better organization
+- Implement proper error handling in production code
+- Regularly clean up unnecessary memories to optimize storage
+- Monitor your API usage to stay within rate limits
+- Use metadata fields for additional context and filtering
+
+<Callout kind="alert">
+  Never expose your API key in client-side code or public repositories.
+</Callout>
